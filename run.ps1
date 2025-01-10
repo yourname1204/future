@@ -1,11 +1,3 @@
-# Kiểm tra quyền admin và yêu cầu chạy script với quyền admin nếu không có
-$IsAdmin = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
-if (-not $IsAdmin.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Host "You need to run this script as Administrator. Restarting with elevated privileges..."
-    Start-Process powershell -Verb runAs -ArgumentList "$PSCommandPath"
-    exit
-}
-
 # Cấu hình các giá trị mặc định để tránh các lỗi khi dừng process
 $PSDefaultParameterValues['Stop-Process:ErrorAction'] = [System.Management.Automation.ActionPreference]::SilentlyContinue
 
